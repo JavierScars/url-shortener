@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 import routers from './routes';
 
 export const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 app.use(bodyParser.json({ limit: '100kb' }));
 app.use(routers)
 
