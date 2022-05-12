@@ -6,8 +6,10 @@ import { PrismaClient } from '@prisma/client';
 import { LinkShortener, isValidURL } from './utils/urlShortener';
 import bodyParser from 'body-parser'
 
+import errorRouter from './routes/errors';
+
 const prisma = new PrismaClient();
-const app: Express = express();
+export const app: Express = express();
 const port = process.env.PORT || 3000;
 app.use(bodyParser.json({ limit: '100kb' }));
 
@@ -37,23 +39,10 @@ app.post('/shortenUrl', async (req: Request, res: Response, next: Function) => {
   });
 })
 
-app.use((_req: Request, _res: Response, next: Function) => {
-  const error: ServerError = {
-    message: 'Not found',
-    status: 404
-  }
-  next(error);
-});
+app.use(errorRouter);
 
-app.use((err: ServerError, _req: Request, res: Response, next: Function) => {
-  return res.status(err.status || 500).send({
-    status: err.status,
-    error: {
-      message: err.message,
-    }
+if (process.env.NODE_ENV != 'test') {
+  app.listen(port, () => {
+    console.log(`[SERVER]: Server is running at http://localhost:${port}`);
   });
-});
-
-app.listen(port, () => {
-  console.log(`[SERVER]: Server is running at http://localhost:${port}`);
-});
+}
