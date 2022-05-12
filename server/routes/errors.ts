@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { ServerError } from '../interfaces/IServerResponse'
 
-const router = Router()
-
-router.use((_req: Request, _res: Response, next: NextFunction) => {
+// Not using express router so the next funcion will lead to these functions when error is detected
+const notFoundError = ((_req: Request, _res: Response, next: NextFunction) => {
     const error: ServerError = {
         message: 'Not found',
         status: 404
@@ -11,13 +10,11 @@ router.use((_req: Request, _res: Response, next: NextFunction) => {
     return next(error);
 });
 
-router.use((err: ServerError, _req: Request, res: Response, _next: NextFunction) => {
-    return res.status(err.status || 500).send({
+const errorFallback = ((err: ServerError, _req: Request, res: Response, _next: NextFunction) => {
+    return res.status(err.status || 500).json({
         status: err.status,
-        error: {
-            message: err.message,
-        }
+        message: err.message,
     });
 });
 
-export default router
+export default [notFoundError, errorFallback]

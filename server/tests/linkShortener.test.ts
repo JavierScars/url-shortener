@@ -6,7 +6,7 @@ should()
 
 import { LinkShortener, isValidURL } from '../utils/urlShortener'
 
-const VALID_URL = "https://www.google.com"
+const VALID_URL = "https://www.GOOGLE.com"
 const BASE_URL = process.env.SERVER_BASE_URL
 
 describe("urlShortener utils", function () {
@@ -38,8 +38,8 @@ describe("urlShortener utils", function () {
             this.linkShortener.hash.should.be.a('string');
         })
 
-        it("Should keep its original url", function () {
-            this.linkShortener.url.should.equal(VALID_URL);
+        it("Should keep its original url formatted", function () {
+            this.linkShortener.url.should.equal(VALID_URL.toLowerCase());
         })
 
         it("Should be able to generate a correct shortenURL", function () {

@@ -26,7 +26,7 @@ export class LinkShortener {
 
     constructor(url: string, hash?: string) {
         this.hash = hash || LinkShortener.gethash(url)
-        this.url = url
+        this.url = url.toLowerCase()
     }
 }
 
