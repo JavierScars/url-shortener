@@ -21,7 +21,7 @@ export class LinkShortener {
     }
 
     getShortenedLink(): string {
-        return `${BASE_URL}/ ${this.hash}`
+        return `${BASE_URL}/get/${this.hash}`
     }
 
     constructor(url: string, hash?: string) {

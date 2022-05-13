@@ -43,7 +43,7 @@ describe("urlShortener utils", function () {
         })
 
         it("Should be able to generate a correct shortenURL", function () {
-            this.linkShortener.getShortenedLink().should.equal(`${BASE_URL}${this.linkShortener.hash}`);
+            this.linkShortener.getShortenedLink().should.equal(`${BASE_URL}/get/${this.linkShortener.hash}`);
         })
     });
 });

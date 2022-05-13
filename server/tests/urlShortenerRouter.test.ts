@@ -26,10 +26,10 @@ describe('URL Shortener Router', function () {
             this.skip()
         }
         await request(app)
-            .get(`/go/${hash}`)
-            .expect(302)
+            .get(`/get/${hash}`)
+            .expect(200)
             .then(function (response) {
-                response.headers.location.should.equal(VALID_URL.toLocaleLowerCase());
+                response.body.url.should.equal(VALID_URL.toLocaleLowerCase());
             })
     });
 })

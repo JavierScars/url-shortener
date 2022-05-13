@@ -29,7 +29,7 @@ router.post('/shorten-url', async (req: Request, res: Response, next: NextFuncti
     });
 })
 
-router.get('/go/:hash', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/get/:hash', async (req: Request, res: Response, next: NextFunction) => {
     const { hash } = req.params;
     if (hash.length < 4) {
         return next()
@@ -40,10 +40,14 @@ router.get('/go/:hash', async (req: Request, res: Response, next: NextFunction) 
         }
     })
     if (shortenedUrl) {
-        if (shortenedUrl.url.slice(0, 4).includes('http')) {
-            return res.status(302).redirect(shortenedUrl.url);
+        let url = shortenedUrl.url;
+        if (!url.slice(0, 4).includes('http')) {
+            url = `http://${url}`
         }
-        return res.status(302).redirect('http://' + shortenedUrl.url);
+        return res.json({
+            url: shortenedUrl.url,
+            hash: shortenedUrl.hash
+        });
     }
     return next()
 })

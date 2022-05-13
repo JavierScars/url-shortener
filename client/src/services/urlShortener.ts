@@ -11,9 +11,18 @@ export const getHash = async (url: string): Promise<string> => {
 }
 
 export const getGoUrl = async (hash: string): Promise<string> => {
-    const rawResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/go/${hash}`, {
-        method: 'GET',
-    })
-    const data = await rawResponse.json()
-    return data.url
+    try {
+        const rawResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/get/${hash}`, {
+            method: 'GET',
+        })
+        if (rawResponse.status < 400) {
+            const data = await rawResponse.json()
+            return data.url
+        }
+        return ''
+    }
+    catch (error) {
+        console.error(error)
+        return ''
+    }
 }
