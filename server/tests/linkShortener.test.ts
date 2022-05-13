@@ -16,8 +16,8 @@ describe("urlShortener utils", function () {
         })
 
         it("Should return false on a invalid URL", function () {
-            const validUrl = "https://google";
-            isValidURL(validUrl).should.be.false;
+            const invalidUrl = "https://google";
+            isValidURL(invalidUrl).should.be.false;
         })
 
         it("Should return false on no params provided", function () {
