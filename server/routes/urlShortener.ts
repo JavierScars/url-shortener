@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { LinkShortener, isValidURL } from '../utils/urlShortener';
 import { PrismaClient } from '@prisma/client';
-import { ServerError } from "../interfaces/IServerResponse";
+import { IServerError } from "../interfaces/ServerResponse";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -9,7 +9,7 @@ const router = Router();
 router.post('/shorten-url', async (req: Request, res: Response, next: NextFunction) => {
     const { url } = req.body;
     if (!isValidURL(url)) {
-        const error: ServerError = {
+        const error: IServerError = {
             status: 400,
             message: 'Invalid URL',
         }
@@ -20,6 +20,7 @@ router.post('/shorten-url', async (req: Request, res: Response, next: NextFuncti
         data: {
             hash: shortenUrl.hash,
             url: shortenUrl.url,
+            userId: req.user?.id || null,
         }
     })
     res.status(201).send({
