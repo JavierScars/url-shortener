@@ -40,10 +40,6 @@ router.get('/get/:hash', async (req: Request, res: Response, next: NextFunction)
         }
     })
     if (shortenedUrl) {
-        let url = shortenedUrl.url;
-        if (!url.slice(0, 4).includes('http')) {
-            url = `http://${url}`
-        }
         return res.json({
             url: shortenedUrl.url,
             hash: shortenedUrl.hash

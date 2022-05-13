@@ -47,20 +47,20 @@ export const Home = () => {
     return (
         <Box display="flex" flexDir="column" minH="100vh">
             <Header />
-            <Box as="main" flex="1" p="2rem" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" maxW="800px" marginBottom="5rem">
+            <Box as="main" flex="1" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" maxW="800px" marginBottom="5rem">
                 <LoadingSpinner isLoading={isLoading} />
                 {!isLoading &&
                     (
                         !shortUrl ?
                             <>
-                                <Box as="p" fontSize="1.5rem" marginBottom="1rem">Enter a valid URL in the input to get a short URL.</Box>
-                                <Input placeholder="www.example.com" size="lg" value={url} onChange={handleUrlChange} width="400px" />
+                                <Box as="p" textAlign="center" fontSize="1.5rem" margin="1rem">Enter a valid URL in the input to get a short URL.</Box>
+                                <Input placeholder="www.example.com" size="lg" value={url} onChange={handleUrlChange} maxW="400px" w="90vw" />
                                 <Button onClick={handleCreateShortenUrl} marginTop="1rem" colorScheme="cyan" color="white" disabled={!isValidURL(url)}>MAKE IT SHORT!</Button>
                             </>
                             :
                             <>
-                                <Box as="p" fontSize="1.5rem" marginBottom="1rem">Here is your shorten URL!</Box>
-                                <Box display="flex" flexDir="row" position="relative" width="400px">
+                                <Box as="p" textAlign="center" fontSize="1.5rem" marginBottom="1rem">Here is your shorten URL!</Box>
+                                <Box display="flex" flexDir="row" position="relative" minW="300px">
                                     <Input disabled size="lg" value={shortUrl} paddingRight="2rem" _disabled={{ cursor: 'default' }} />
                                     <Button onClick={handleCopyUrl} colorScheme="cyan" color="white" position="absolute" right={0} borderLeftRadius={0} height="100%">
                                         <CopyIcon />

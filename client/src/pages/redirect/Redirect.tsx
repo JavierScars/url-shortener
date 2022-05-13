@@ -29,14 +29,14 @@ export const Redirect = () => {
             <Box as="main" flex="1" p="2rem" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" maxW="800px" marginBottom="5rem">
                 {isLoading &&
                     <>
-                        <Box as="p" fontSize="1.5rem" marginBottom="1rem">You will be redirected in a moment. Please wait...</Box>
+                        <Box as="p" textAlign="center" fontSize="1.5rem" marginBottom="1rem">You will be redirected in a moment. Please wait...</Box>
                         <LoadingSpinner isLoading={isLoading} />
                     </>
                 }
 
                 {hasError &&
                     <>
-                        <Box as="p" fontSize="1.5rem" marginBottom="1rem">We cannot find any url with this shortcode.</Box>
+                        <Box as="p" textAlign="center" fontSize="1.5rem" marginBottom="1rem">We cannot find any url with this shortcode.</Box>
                         <Link href="/">
                             <Button colorScheme="cyan" color="white">CREATE A SHORT LINK</Button>
                         </Link>

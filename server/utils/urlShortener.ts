@@ -26,7 +26,13 @@ export class LinkShortener {
 
     constructor(url: string, hash?: string) {
         this.hash = hash || LinkShortener.gethash(url)
-        this.url = url.toLowerCase()
+        let tmpUrl = url.toLowerCase()
+        if (!tmpUrl.slice(0, 4).includes('http')) {
+            this.url = `http://${tmpUrl}`
+        }
+        else {
+            this.url = tmpUrl
+        }
     }
 }
 
