@@ -1,12 +1,12 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { LinkShortener, isValidURL } from '../utils/urlShortener';
 import { PrismaClient } from '@prisma/client';
-import { IServerError } from "../interfaces/ServerResponse";
+import { IGetHashResponse, IServerError, IShortenUrlResponse } from "../interfaces/ServerResponse";
 
 const prisma = new PrismaClient();
 const router = Router();
 
-router.post('/shorten-url', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/shorten-url', async (req: Request, res: Response<IShortenUrlResponse>, next: NextFunction) => {
     const { url } = req.body;
     if (!isValidURL(url)) {
         const error: IServerError = {
@@ -30,7 +30,7 @@ router.post('/shorten-url', async (req: Request, res: Response, next: NextFuncti
     });
 })
 
-router.get('/get/:hash', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/get/:hash', async (req: Request, res: Response<IGetHashResponse>, next: NextFunction) => {
     const { hash } = req.params;
     if (hash.length < 4) {
         return next()

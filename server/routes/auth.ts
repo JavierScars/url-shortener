@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import { IServerError } from '../interfaces/ServerResponse';
+import { IPostGetUserResponse, IServerError, ISignInUserResponse } from '../interfaces/ServerResponse';
 import { createUser } from '../services/users';
 import passport from 'passport'
+import { IUser } from '../interfaces/User';
 
 const router = Router();
 
-router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/signup', async (req: Request, res: Response<ISignInUserResponse>, next: NextFunction) => {
     try {
         const { password, username } = req.body;
         if (!password || !username) {
@@ -16,7 +17,15 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
             return next(error);
         }
         const user = await createUser({ username, password });
-        res.status(201).json(user);
+        if (!user) {
+            const error: IServerError = {
+                status: 500,
+                message: 'Error creating user'
+            }
+            return next(error);
+        }
+        const { password: pass, ...response } = user
+        return res.status(201).json(user);
     }
     catch (err: any) {
         const error: IServerError = {
@@ -28,13 +37,14 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
 })
 
 router.post('/signin', passport.authenticate('local', {
-    successRedirect: '/user',
+    successRedirect: '/get-user',
     failureRedirect: '/login',
 }))
 
-router.post('/user', (req: Request, res: Response, next: NextFunction) => {
+router.post('/get-user', (req: Request, res: Response<IPostGetUserResponse>, next: NextFunction) => {
     if (req.user) {
-        res.json({ ...req.user, password: undefined });
+        const { password, ...response } = req.user;
+        res.json(response);
     }
     else {
         const error: IServerError = {
