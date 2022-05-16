@@ -20,6 +20,7 @@ interface IURLsTable {
     copyUrl: (url: string) => void,
 }
 const URLsTable: FC<IURLsTable> = ({ urls, copyUrl }) => {
+
     return <TableContainer>
         <Table size='sm'>
             <Thead>
@@ -31,7 +32,7 @@ const URLsTable: FC<IURLsTable> = ({ urls, copyUrl }) => {
                 {urls.map(url =>
                     <Tr key={url.id}>
                         <Td>{url.url}</Td>
-                        <Td>{url.shortenUrl}</Td>
+                        <Td>{url.customCode || url.shortenUrl}</Td>
                         <Td>
                             <CopyIcon w='1.5rem' h="1.5rem" onClick={() => copyUrl(url.shortenUrl)} />
                         </Td>
@@ -53,7 +54,7 @@ export const Profile = () => {
             try {
                 const _urls = await getAllUrls()
                 if (_urls) {
-                    setUrls(_urls);
+                    setUrls([..._urls, ...urls]);
                     setIsLoading(LOADING_STATE.LOADED);
                 }
             } catch (error) {
@@ -85,7 +86,7 @@ export const Profile = () => {
     return (
         <Box display="flex" flexDir="column" minH="100vh">
             <Header showLoginButton />
-            <Box as="main" flex="1" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" maxW="800px" marginBottom="5rem">
+            <Box as="main" flex="1" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" marginTop="4rem" maxW="min(100vw, 800px)" overflow="auto">
                 <LoadingSpinner isLoading={isLoading === LOADING_STATE.LOADING} />
                 {isLoading === LOADING_STATE.LOADED && <URLsTable urls={urls} copyUrl={handleCopyUrl} />}
                 {isLoading === LOADING_STATE.ERROR && <><Box fontSize="2.5rem" color="red.500" fontWeight="bold">UPS!</Box> <Box fontSize="1.5rem" textAlign="center">Something went wrong<br />Try reloading the site</Box></>}

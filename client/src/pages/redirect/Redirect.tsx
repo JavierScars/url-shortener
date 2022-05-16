@@ -8,12 +8,17 @@ import { getGoUrl } from "../../services/urlShortener";
 
 export const Redirect = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const { hash = '' } = useParams();
+    const { hash = '', username = '', customCode = '' } = useParams();
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         setTimeout(async () => {
-            const url = await getGoUrl(hash)
+            const url = await getGoUrl({
+                username,
+                hash,
+                customCode
+            });
+
             if (url) {
                 return window.location.href = url;
             }

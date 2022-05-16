@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <ChakraProvider>
     <UserContextProvider>
-      <Box minH="100vh" minW="100vw">
+      <Box minH="100vh" maxW="100vw">
         <Router />
       </Box>
     </UserContextProvider>

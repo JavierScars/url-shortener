@@ -24,6 +24,7 @@ export const Router: React.FC = () => {
             <Route path='/login' element={<ProtectedRoute Component={Login} condition={!user} redirectPath='/' />} />
             <Route path='/profile' element={<ProtectedRoute Component={Profile} condition={!!user} redirectPath='/login' />} />
             <Route path='/:hash' element={<Redirect />} />
+            <Route path='/:username/:customCode' element={<Redirect />} />
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>
     </BrowserRouter>

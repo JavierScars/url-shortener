@@ -37,7 +37,7 @@ export const Login = () => {
     return (
         <Box display="flex" flexDir="column" minH="100vh">
             <Header />
-            <Box as="main" position="relative" padding="2rem 1rem" justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" maxW="800px" border="0.5rem solid" borderColor="cyan.400" borderRadius="0.5rem">
+            <Box as="main" position="relative" padding="2rem 1rem" justifyContent="center" margin="3rem auto" alignItems="center" display="flex" flexDir="column" maxW="800px" border="0.5rem solid" borderColor="cyan.400" borderRadius="0.5rem">
                 <Box display="flex" flexDirection="row" position="absolute" w="100%" top={0}>
                     <SelectorButton buttonMode="signin" currentMode={mode} onClick={setMode} >SignIn</SelectorButton>
                     <SelectorButton buttonMode="signup" currentMode={mode} onClick={setMode} >SignUp</SelectorButton>

@@ -1,11 +1,12 @@
 import { IUser } from "./User";
 
 export interface IShortenURL {
-    id: number;
-    url: string;
-    hash: string;
-    shortenUrl: string;
+    id: number
+    url: string
+    hash: string
+    shortenUrl: string
     user?: IUser
-    userId: string
+    username: string | null
     visitCount: number
+    customCode: string
 }
