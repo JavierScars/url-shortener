@@ -5,20 +5,14 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient();
 
 export const createUser = async (user: IUser) => {
-    try {
-        const hashedPassword = bcrypt.hashSync(user.password as string, 10);
-        const createdUser = await prisma.user.create({
-            data: {
-                username: user.username,
-                password: hashedPassword
-            }
-        })
-        return { ...createdUser, password: undefined } as IUser;
-    }
-    catch (err: any) {
-        console.error(`Error creating user: ${err.message}`);
-        return null
-    }
+    const hashedPassword = bcrypt.hashSync(user.password as string, 10);
+    const createdUser = await prisma.user.create({
+        data: {
+            username: user.username,
+            password: hashedPassword
+        }
+    })
+    return { ...createdUser, password: undefined } as IUser;
 }
 
 export const getUserByUsername = async (username: string) => {
@@ -31,7 +25,6 @@ export const getUserByUsername = async (username: string) => {
         return user as IUser;
     }
     catch (err: any) {
-        console.error(`Error getting user: ${err.message}`);
         return null
     }
 }

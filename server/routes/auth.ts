@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response, Router } from 'express'
+import e, { NextFunction, Request, Response, Router } from 'express'
 import { IPostGetUserResponse, IServerError, ISignInUserResponse } from '../interfaces/ServerResponse';
 import { createUser } from '../services/users';
 import passport from 'passport'
 import { IUser } from '../interfaces/User';
+import { PrismaErrorCodes } from '../const/prismaErrorCodes';
 
 const router = Router();
 
@@ -24,24 +25,38 @@ router.post('/signup', async (req: Request, res: Response<ISignInUserResponse>, 
             }
             return next(error);
         }
-        const { password: pass, ...response } = user
-        return res.status(201).json(user);
+        return next()
     }
     catch (err: any) {
         const error: IServerError = {
             status: 500,
-            message: err.message || 'Internal server error'
+            message: err.message || 'Internal server error',
+        }
+
+        if (err.code === PrismaErrorCodes.UniqueConstraintError) {
+            if (err.meta?.target.includes('username')) {
+                error.message = 'Username already exists'
+                error.status = 409
+            }
+            else {
+                error.message = 'Something went wrong'
+            }
         }
         return next(error);
     }
+},
+    passport.authenticate('local', { successRedirect: '/get-user' })),
+
+    router.post('/signin', passport.authenticate('local', {
+        successRedirect: '/get-user'
+    }))
+
+router.get('/signout', async (req: Request, res: Response,) => {
+    req.logOut()
+    return res.send()
 })
 
-router.post('/signin', passport.authenticate('local', {
-    successRedirect: '/get-user',
-    failureRedirect: '/login',
-}))
-
-router.post('/get-user', (req: Request, res: Response<IPostGetUserResponse>, next: NextFunction) => {
+router.get('/get-user', (req: Request, res: Response<IPostGetUserResponse>, next: NextFunction) => {
     if (req.user) {
         const { password, ...response } = req.user;
         res.json(response);

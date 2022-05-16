@@ -1,4 +1,4 @@
-type ServerResponse = 200 | 400 | 401 | 403 | 404 | 500;
+type ServerResponse = 200 | 400 | 401 | 403 | 404 | 409 | 500;
 
 export interface IServerError {
     message: string;
