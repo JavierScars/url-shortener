@@ -1,3 +1,5 @@
+import { IUser } from "./User";
+
 export interface IShortenUrlResponse {
     url: string;
     hash: string;
@@ -9,12 +11,10 @@ export interface IGetHashResponse {
     hash: string;
 }
 
-export interface ISignInUserResponse {
-    username: string;
-    id?: number;
+export interface ISignInUserResponse extends IUser {
+
 }
 
-export interface IPostGetUserResponse {
-    username: string;
-    id?: number;
+export interface IPostGetUserResponse extends IUser {
+
 }

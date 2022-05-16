@@ -21,7 +21,7 @@ export const Redirect = () => {
             setHasError(true);
 
         }, 1000);
-    }, []);
+    }, [hash]);
 
     return (
         <Box display="flex" flexDir="column" minH="100vh">

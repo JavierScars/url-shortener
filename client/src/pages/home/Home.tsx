@@ -46,7 +46,7 @@ export const Home = () => {
 
     return (
         <Box display="flex" flexDir="column" minH="100vh">
-            <Header />
+            <Header showLoginButton />
             <Box as="main" flex="1" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" maxW="800px" marginBottom="5rem">
                 <LoadingSpinner isLoading={isLoading} />
                 {!isLoading &&
