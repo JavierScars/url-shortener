@@ -6,6 +6,7 @@ export interface IShortenURL {
     createdAt?: Date
     id: number
     user?: IUser
-    userId: number | null
+    username: string | null
     visitCount: number
+    customCode: string | null
 }

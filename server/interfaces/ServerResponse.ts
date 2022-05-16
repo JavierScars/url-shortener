@@ -11,6 +11,8 @@ export interface IShortenUrlResponse {
     url: string;
     hash: string;
     shortenUrl: string;
+    customCode: string | null;
+    username: string | null;
 }
 
 export interface IGetHashResponse {

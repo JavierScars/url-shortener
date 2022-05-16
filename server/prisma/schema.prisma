@@ -12,9 +12,12 @@ model ShortenedUrl {
   url        String
   hash       String   @unique
   createdAt  DateTime @default(now())
-  userId     Int?
-  user       User?    @relation(fields: [userId], references: [id])
+  username   String?
+  user       User?    @relation(fields: [username], references: [username])
   visitCount Int      @default(0)
+  customCode String?  @unique()
+
+  @@unique([customCode, username], name: "custom_code_username_unique")
 }
 
 model User {

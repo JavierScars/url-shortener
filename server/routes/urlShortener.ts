@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 const router = Router();
 
 router.post('/shorten-url', async (req: Request, res: Response<IShortenUrlResponse>, next: NextFunction) => {
-    const { url } = req.body;
+    const { url, customUrl } = req.body;
     if (!isValidURL(url)) {
         const error: IServerError = {
             status: 400,
@@ -16,30 +16,47 @@ router.post('/shorten-url', async (req: Request, res: Response<IShortenUrlRespon
         return next(error)
     }
     const shortenUrl = new LinkShortener(url);
+    const customCode = (req.user?.username && customUrl) || null;
     await prisma.shortenedUrl.create({
         data: {
             hash: shortenUrl.hash,
             url: shortenUrl.url,
-            userId: req.user?.id || null,
+            username: req.user?.username || null,
+            customCode: customCode || null,
         }
     })
     res.status(201).send({
         hash: shortenUrl.hash,
         url: shortenUrl.url,
-        shortenUrl: shortenUrl.getShortenedLink()
+        shortenUrl: shortenUrl.getShortenedLink(),
+        customCode: customCode || null,
+        username: req.user?.username || null,
     });
 })
 
-router.get('/get/:hash', async (req: Request, res: Response<IGetHashResponse>, next: NextFunction) => {
-    const { hash } = req.params;
-    if (hash.length < 4) {
+router.get(['/get/:hash', '/:username/:customCode'], async (req: Request, res: Response<IGetHashResponse>, next: NextFunction) => {
+    const { hash, username, customCode } = req.params;
+    if (hash?.length < 4 || (!username || !customCode)) {
         return next()
     }
-    const shortenedUrl = await prisma.shortenedUrl.findUnique({
-        where: {
-            hash: hash
-        }
-    })
+    let shortenedUrl = null
+    if (username && customCode) {
+        shortenedUrl = await prisma.shortenedUrl.findUnique({
+            where: {
+                custom_code_username_unique: {
+                    username,
+                    customCode,
+                }
+            }
+        })
+    }
+    else {
+        shortenedUrl = await prisma.shortenedUrl.findUnique({
+            where: {
+                hash: hash
+            }
+        })
+    }
 
     if (shortenedUrl) {
         res.json({
@@ -48,7 +65,7 @@ router.get('/get/:hash', async (req: Request, res: Response<IGetHashResponse>, n
         });
         return prisma.shortenedUrl.update({
             where: {
-                hash: hash
+                hash: shortenedUrl.hash
             },
             data: {
                 visitCount: shortenedUrl.visitCount + 1
@@ -68,7 +85,7 @@ router.get('/get-all-urls', async (req: Request, res: Response<IGetAllUrlsRespon
     }
     const URLs = await prisma.shortenedUrl.findMany({
         where: {
-            userId: req.user?.id || null
+            username: req.user?.username || null
         }
     })
     return res.json({ URLs })
