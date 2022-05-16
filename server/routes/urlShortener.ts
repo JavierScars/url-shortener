@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { LinkShortener, isValidURL } from '../utils/urlShortener';
 import { PrismaClient } from '@prisma/client';
-import { IGetHashResponse, IServerError, IShortenUrlResponse } from "../interfaces/ServerResponse";
+import { IGetAllUrlsResponse, IGetHashResponse, IServerError, IShortenUrlResponse } from "../interfaces/ServerResponse";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -40,12 +40,37 @@ router.get('/get/:hash', async (req: Request, res: Response<IGetHashResponse>, n
             hash: hash
         }
     })
+
     if (shortenedUrl) {
-        return res.json({
+        res.json({
             url: shortenedUrl.url,
             hash: shortenedUrl.hash
         });
+        return prisma.shortenedUrl.update({
+            where: {
+                hash: hash
+            },
+            data: {
+                visitCount: shortenedUrl.visitCount + 1
+            }
+        })
     }
     return next()
+})
+
+router.get('/get-all-urls', async (req: Request, res: Response<IGetAllUrlsResponse>, next: NextFunction) => {
+    if (!req.user) {
+        const error: IServerError = {
+            status: 401,
+            message: 'Unauthorized',
+        }
+        return next(error)
+    }
+    const URLs = await prisma.shortenedUrl.findMany({
+        where: {
+            userId: req.user?.id || null
+        }
+    })
+    return res.json({ URLs })
 })
 export default router;
