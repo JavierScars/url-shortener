@@ -88,7 +88,7 @@ export const Profile = () => {
             <Header showLoginButton />
             <Box as="main" flex="1" flexGrow={1} justifyContent="center" margin="auto" alignItems="center" display="flex" flexDir="column" marginTop="4rem" maxW="min(100vw, 800px)" overflow="auto">
                 <LoadingSpinner isLoading={isLoading === LOADING_STATE.LOADING} />
-                {isLoading === LOADING_STATE.LOADED && <URLsTable urls={urls} copyUrl={handleCopyUrl} />}
+                {isLoading === LOADING_STATE.LOADED && urls.length ? <URLsTable urls={urls} copyUrl={handleCopyUrl} /> : <><Box fontSize="2.5rem" color="cyan.500" fontWeight="bold">UPS!</Box> <Box fontSize="1.5rem" textAlign="center">You dont have any short url yet<br />Try creating one!</Box> </>}
                 {isLoading === LOADING_STATE.ERROR && <><Box fontSize="2.5rem" color="red.500" fontWeight="bold">UPS!</Box> <Box fontSize="1.5rem" textAlign="center">Something went wrong<br />Try reloading the site</Box></>}
             </Box>
         </Box>

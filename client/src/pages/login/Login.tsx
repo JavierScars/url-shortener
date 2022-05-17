@@ -17,7 +17,7 @@ interface SelectorButtonProps {
 }
 const SelectorButton: FC<SelectorButtonProps> = ({ currentMode, buttonMode, onClick, children }) => {
     const isActive = currentMode === buttonMode;
-    return <Button disabled={isActive} data-testid={`mode-selector-button-${buttonMode}`} flexGrow={1} _focus={{ outline: 'none' }} onClick={() => onClick(buttonMode)} colorScheme={isActive ? "cyan" : "gray"} color={isActive ? "white" : "gray.500"} borderRadius={0}>{children}</Button>
+    return <Button _disabled={{ backgroundColor: 'cyan.400', color: 'white' }} disabled={isActive} data-testid={`mode-selector-button-${buttonMode}`} flexGrow={1} _focus={{ outline: 'none' }} onClick={() => onClick(buttonMode)} colorScheme={isActive ? "cyan" : "gray"} color={isActive ? "white" : "gray.500"} borderRadius={0}>{children}</Button>
 }
 
 export const Login = () => {
