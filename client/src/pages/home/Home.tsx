@@ -6,11 +6,11 @@ import { isValidURL } from "../../utils/urlUtils";
 import { LoadingSpinner } from "../../components/Spinner/Spinner";
 import { CopyIcon } from '@chakra-ui/icons'
 import { getHash } from "../../services/urlShortener";
-import { useToast } from '@chakra-ui/react'
+import { useToast } from '../../services/useToast'
 import { UserContext } from "../../context/userContext";
 
 export const Home = () => {
-    const toast = useToast();
+    const toast = useToast()
     const [url, setUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [shortUrl, setShortUrl] = useState('');
@@ -50,7 +50,7 @@ export const Home = () => {
     }
 
     const handleCustomUrlChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-        setCustomUrl(e.target.value.replace(/[^a-zA-Z0-9_\s\-]/gim, '').replace(/\s/, '_'));
+        setCustomUrl(e.target.value.replace(/[^a-zA-Z0-9_\s\-]/gim, '').replace(/\s/gim, '_'));
     }
 
     return (
@@ -63,12 +63,12 @@ export const Home = () => {
                         !shortUrl ?
                             <>
                                 <Box as="p" textAlign="center" fontSize="1.5rem" margin="1rem">Enter a valid URL in the input to get a short URL.</Box>
-                                <Input placeholder="www.example.com" size="lg" value={url} onChange={handleUrlChange} maxW="400px" w="90vw" />
+                                <Input data-testid="original-url-input" placeholder="www.example.com" size="lg" value={url} onChange={handleUrlChange} maxW="400px" w="90vw" />
                                 {user && <>
-                                    <Checkbox isChecked={isCustomUrl} onChange={(e) => setIsCustomUrl(e.target.checked)} defaultChecked margin="1rem" marginBottom="0.5rem" alignSelf="baseline">Use custom URL</Checkbox>
-                                    {isCustomUrl && <Input placeholder="my-custom-message" size="lg" value={customUrl} onChange={handleCustomUrlChange} maxW="400px" w="90vw" />}
+                                    <Checkbox data-testid="custom-url-checkbox" isChecked={isCustomUrl} onChange={(e) => setIsCustomUrl(e.target.checked)} defaultChecked margin="1rem" marginBottom="0.5rem" alignSelf="baseline">Use custom URL</Checkbox>
+                                    {isCustomUrl && <Input data-testid="custom-url-input" placeholder="my-custom-message" size="lg" value={customUrl} onChange={handleCustomUrlChange} maxW="400px" w="90vw" />}
                                 </>}
-                                <Button onClick={handleCreateShortenUrl} marginTop="1rem" colorScheme="cyan" color="white" disabled={!isValidURL(url) || (isCustomUrl && !customUrl)}>MAKE IT SHORT!</Button>
+                                <Button data-testid="shorten-button" onClick={handleCreateShortenUrl} marginTop="1rem" colorScheme="cyan" color="white" disabled={!isValidURL(url) || (isCustomUrl && !customUrl)}>MAKE IT SHORT!</Button>
                             </>
                             :
                             <>

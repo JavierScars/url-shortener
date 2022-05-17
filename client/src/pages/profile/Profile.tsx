@@ -4,8 +4,8 @@ import { useState, useEffect, FC } from "react";
 import { LoadingSpinner } from "../../components/Spinner/Spinner";
 import { CopyIcon } from '@chakra-ui/icons'
 import { getAllUrls } from "../../services/urlShortener";
-import { useToast } from '@chakra-ui/react'
 import { IShortenURL } from "../../interfaces/IUrl";
+import { useToast } from "../../services/useToast";
 
 const TABLE_HEADERS = ['Original URL', 'Short URL', 'Actions', 'Visit Counter']
 
