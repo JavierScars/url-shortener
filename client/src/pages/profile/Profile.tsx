@@ -22,17 +22,17 @@ interface IURLsTable {
 const URLsTable: FC<IURLsTable> = ({ urls, copyUrl }) => {
 
     return <TableContainer>
-        <Table size='sm'>
+        <Table size='sm' data-testid="urls-table">
             <Thead>
-                <Tr>
+                <Tr data-testid="urls-table-headers">
                     {TABLE_HEADERS.map(header => <Th key={header}>{header}</Th>)}
                 </Tr>
             </Thead>
             <Tbody>
                 {urls.map(url =>
                     <Tr key={url.id}>
-                        <Td>{url.url}</Td>
-                        <Td>{url.customCode || url.shortenUrl}</Td>
+                        <Td data-testid="row-original-url">{url.url}</Td>
+                        <Td data-testid="row-shorten-url">{url.customCode || url.shortenUrl}</Td>
                         <Td>
                             <CopyIcon w='1.5rem' h="1.5rem" onClick={() => copyUrl(url.shortenUrl)} />
                         </Td>
@@ -54,7 +54,7 @@ export const Profile = () => {
             try {
                 const _urls = await getAllUrls()
                 if (_urls) {
-                    setUrls([..._urls, ...urls]);
+                    setUrls(_urls);
                     setIsLoading(LOADING_STATE.LOADED);
                 }
             } catch (error) {

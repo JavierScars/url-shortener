@@ -50,7 +50,6 @@ export const getAllUrls = async (): Promise<IShortenUrlResponse[]> => {
         method: 'GET',
         credentials: 'include',
     })
-
     if (rawResponse.status < 400) {
         const data = await rawResponse.json() as IGetAllUrlsResponse;
         data.URLs = data.URLs.map(url => {
