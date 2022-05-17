@@ -12,6 +12,7 @@
   - *SERVER_PORT: Is the port where the server will be listening.
   - SESSION_SECRET: Is the passphrase used in the session management. This field is optional, the default value is 'default_secret') 
   - SERVER_BASE_URL: This field is optional. The frontend baseurl will be used for testing purposes only.
+- run `npx prisma db push` to create the database. (in case of error try installing npx)
 - run `npm run dev` to run the server in development mode or run `npm run build` to build the server and then `npm start` to start the server in production mode.
 
 ## Testing
@@ -62,7 +63,7 @@
 ## Testing
 - Go to the client folder
 - Run `npm i`
-- Create a `.env.test` file with the following options:
+- Create a `.env.test.local` file with the following options:
 ```
 REACT_APP_API_BASE_URL=http://localhost:XXX
 REACT_APP_CLIENT_BASE_URL=http://url-shortener
