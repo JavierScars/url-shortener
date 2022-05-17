@@ -2,17 +2,14 @@ import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { Home } from '../Home';
 import '@testing-library/jest-dom'
 import { UserContext } from '../../../context/userContext';
-import { ThemeProvider, theme } from "@chakra-ui/react";
 import { fail } from 'assert';
 
 const CustomComponent = ({ includeUser = false }) => {
   const user = includeUser ? { username: 'test123', id: 1, error: '' } : null;
   return (
-    <ThemeProvider theme={theme}>
-      <UserContext.Provider value={{ user, setUser: () => { } }}>
-        <Home />
-      </UserContext.Provider>
-    </ThemeProvider>
+    <UserContext.Provider value={{ user, setUser: () => { } }}>
+      <Home />
+    </UserContext.Provider>
   )
 }
 

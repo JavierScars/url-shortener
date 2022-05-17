@@ -17,7 +17,7 @@ interface SelectorButtonProps {
 }
 const SelectorButton: FC<SelectorButtonProps> = ({ currentMode, buttonMode, onClick, children }) => {
     const isActive = currentMode === buttonMode;
-    return <Button flexGrow={1} _focus={{ outline: 'none' }} onClick={() => onClick(buttonMode)} colorScheme={isActive ? "cyan" : "gray"} color={isActive ? "white" : "gray.500"} borderRadius={0}>{children}</Button>
+    return <Button disabled={isActive} data-testid={`mode-selector-button-${buttonMode}`} flexGrow={1} _focus={{ outline: 'none' }} onClick={() => onClick(buttonMode)} colorScheme={isActive ? "cyan" : "gray"} color={isActive ? "white" : "gray.500"} borderRadius={0}>{children}</Button>
 }
 
 export const Login = () => {
@@ -93,14 +93,14 @@ export const Login = () => {
                             isSubmitting,
                             handleChange,
                             isValid,
-
+                            dirty
                         }) => (
                             <Form>
                                 <Field>
                                     {(() => (
                                         <FormControl>
                                             <FormLabel htmlFor='username'>Username</FormLabel>
-                                            <Input required id='username' type='text' value={values.username} onChange={handleChange} />
+                                            <Input data-testid="username-input" required id='username' type='text' value={values.username} onChange={handleChange} />
                                         </FormControl>
                                     ))}
                                 </Field>
@@ -108,7 +108,7 @@ export const Login = () => {
                                     {(() => (
                                         <FormControl marginTop="1rem">
                                             <FormLabel htmlFor='password'>Password</FormLabel>
-                                            <Input required id='password' type='password' value={values.password} onChange={handleChange} />
+                                            <Input data-testid="password-input" required id='password' type='password' value={values.password} onChange={handleChange} />
                                         </FormControl>
                                     ))}
                                 </Field>
@@ -118,7 +118,7 @@ export const Login = () => {
                                             {(() => (
                                                 <FormControl marginTop="1rem">
                                                     <FormLabel htmlFor='confirmPassword'>Confirm your password</FormLabel>
-                                                    <Input id='confirmPassword' type='password' value={values.confirmPassword} onChange={handleChange} />
+                                                    <Input data-testid="confirm-password-input" id='confirmPassword' type='password' value={values.confirmPassword} onChange={handleChange} />
                                                 </FormControl>
                                             ))}
                                         </Field>
@@ -126,13 +126,14 @@ export const Login = () => {
                                         null
                                 }
                                 <Button
+                                    data-testid="submit-button"
                                     marginTop="1rem"
                                     w="100%"
                                     colorScheme='cyan'
                                     color="white"
                                     isLoading={isSubmitting}
                                     type='submit'
-                                    disabled={!isValid || isSubmitting}
+                                    disabled={!dirty || !isValid || isSubmitting}
                                 >
                                     {mode === "signin" ? "Sign In" : "Sign Up"}
                                 </Button>
