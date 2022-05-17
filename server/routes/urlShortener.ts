@@ -36,7 +36,7 @@ router.post('/shorten-url', async (req: Request, res: Response<IShortenUrlRespon
 
 router.get(['/get/:hash', '/:username/:customCode'], async (req: Request, res: Response<IGetHashResponse>, next: NextFunction) => {
     const { hash, username, customCode } = req.params;
-    if (hash?.length < 4 || (!username || !customCode)) {
+    if (hash?.length < 4 && (!username || !customCode)) {
         return next()
     }
     let shortenedUrl = null
@@ -53,11 +53,10 @@ router.get(['/get/:hash', '/:username/:customCode'], async (req: Request, res: R
     else {
         shortenedUrl = await prisma.shortenedUrl.findUnique({
             where: {
-                hash: hash
+                hash
             }
         })
     }
-
     if (shortenedUrl) {
         res.json({
             url: shortenedUrl.url,

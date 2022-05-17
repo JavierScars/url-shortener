@@ -21,7 +21,7 @@ describe('URL Shortener Router', function () {
             })
     });
 
-    it('[GET] /go/hashCode should redirect to the shortened link a shortened URL', async function () {
+    it('[GET] /get/hashCode should redirect to the shortened link a shortened URL', async function () {
         if (hash.length < 4) {
             this.skip()
         }

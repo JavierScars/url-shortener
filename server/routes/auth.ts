@@ -1,8 +1,7 @@
-import e, { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { IPostGetUserResponse, IServerError, ISignInUserResponse } from '../interfaces/ServerResponse';
 import { createUser } from '../services/users';
 import passport from 'passport'
-import { IUser } from '../interfaces/User';
 import { PrismaErrorCodes } from '../const/prismaErrorCodes';
 
 const router = Router();
