@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { LinkShortener, isValidURL } from '../utils/urlShortener';
+import { LinkShortener, isValidURL } from '../services/urlShortener';
 import { PrismaClient } from '@prisma/client';
 import { IGetAllUrlsResponse, IGetHashResponse, IServerError, IShortenUrlResponse } from "../interfaces/ServerResponse";
 

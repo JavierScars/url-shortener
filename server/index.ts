@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: '.env' });
 
 import express, { Express } from 'express';
 import routers from './routes';

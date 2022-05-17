@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha -r ts-node/register 'tests/**/*.ts'",
     "start": "cross-env NODE_ENV=production node dist/index.js",
+    "build": "cross-env NODE_ENV=production tsc",
     "dev": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
   "author": "Fernando G. <ferjgmorales25@gmail.com>",

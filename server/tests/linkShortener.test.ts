@@ -4,7 +4,7 @@ dotenv.config({ path: '../.env' });
 import { should } from 'chai'
 should()
 
-import { LinkShortener, isValidURL } from '../utils/urlShortener'
+import { LinkShortener, isValidURL } from '../services/urlShortener'
 
 const VALID_URL = "https://www.GOOGLE.com"
 const BASE_URL = process.env.SERVER_BASE_URL
